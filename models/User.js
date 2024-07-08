@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import validator from "validator";
-import { isValidPassword } from "mongoose";
+import { isValidPassword } from "mongoose-custom-validators";
 
 const userSchema = new mongoose.Schema({
   houseNumber: {

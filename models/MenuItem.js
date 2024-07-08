@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const menuItemSchema = new mongoose.Schema({
-  itemId: String,
   itemName: String,
   category: String,
   price: Number,

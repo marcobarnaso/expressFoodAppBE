@@ -55,13 +55,4 @@ const authUser = async (req, res) => {
     res.status(401).json({ message: "Invalid email or password" });
   }
 };
-
-const fetchFavorites = (req, res) => {
-  // need to check this
-  return res.status(200).json({ favorites: req.user.favorites });
-  //The protect middleware adds the user to the request with
-  //the updated favorites array, that's why we can just
-  //return the favorites array
-};
-
-export { registerUser, authUser, fetchFavorites };
+export { registerUser, authUser };

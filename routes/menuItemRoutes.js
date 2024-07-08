@@ -1,12 +1,12 @@
 import express from "express";
-import { protect } from "../middleware/authMiddleware";
+import { protect } from "../middleware/authMiddleware.js";
 import {
   getAllMenuItems,
   getMenuItemById,
   createMenuItem,
   updateMenuItem,
   deleteMenuItem,
-} from "../controllers/menuController";
+} from "../controllers/menuController.js";
 
 const router = express.Router();
 
