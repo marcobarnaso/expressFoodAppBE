@@ -1,0 +1,67 @@
+import User from "../models/User.js";
+import generateToken from "../utils/generateToken.js";
+
+const registerUser = async (req, res) => {
+  const { houseNumber, name, lastName, password, email, phone } = req.body;
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    return res.status(400).json({ message: "User already exists" });
+  }
+
+  const user = await User.create({
+    houseNumber,
+    name,
+    lastName,
+    password,
+    contactInformation: {
+      email,
+      phone,
+    },
+  });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      houseNumber: user.houseNumber,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.contactInformation.email,
+      phone: user.contactInformation.phone,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(400).json({ message: "Invalid user data" });
+  }
+};
+
+const authUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      houseNumber: user.houseNumber,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.contactInformation.email,
+      phone: user.contactInformation.phone,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401).json({ message: "Invalid email or password" });
+  }
+};
+
+const fetchFavorites = (req, res) => {
+  // need to check this
+  return res.status(200).json({ favorites: req.user.favorites });
+  //The protect middleware adds the user to the request with
+  //the updated favorites array, that's why we can just
+  //return the favorites array
+};
+
+export { registerUser, authUser, fetchFavorites };
